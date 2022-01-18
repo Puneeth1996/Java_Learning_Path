@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("users")  // http://localhost:8080/users
 public class UserController {
 
-//    @Autowired
-//    UserService userService;
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public String getUser(){
@@ -21,20 +21,17 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(){
-        return("creatte user was called");
+    public UserRest createUser(@RequestBody UserDetailsRequestModal userDetails){
+        UserRest returnValue = new UserRest();
+
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userDetails, userDto);
+
+        UserDto createdUser = userService.createUser(userDto);
+        BeanUtils.copyProperties(createdUser, returnValue);
+
+        return(returnValue);
     }
-//    public UserRest createUser(@RequestBody UserDetailsRequestModal userDetails){
-//        UserRest returnValue = new UserRest();
-//
-//        UserDto userDto = new UserDto();
-//        BeanUtils.copyProperties(userDetails, userDto);
-//
-//        UserDto createUser = userService.createUser(userDto);
-//        BeanUtils.copyProperties(createUser, returnValue);
-//
-//        return(returnValue);
-//    }
 
     @PutMapping
     public String updateUser(){
