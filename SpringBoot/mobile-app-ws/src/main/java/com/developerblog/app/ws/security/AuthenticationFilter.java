@@ -1,5 +1,8 @@
 package com.developerblog.app.ws.security;
 
+import com.developerblog.app.ws.SpringApplicationContext;
+import com.developerblog.app.ws.service.UserService;
+import com.developerblog.app.ws.shared.dto.UserDto;
 import com.developerblog.app.ws.ui.modal.request.UserLoginRequestModal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -65,7 +68,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
 
+
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
+
+
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader("UserID", userDto.getUserId());
+
+
     }
 
 
