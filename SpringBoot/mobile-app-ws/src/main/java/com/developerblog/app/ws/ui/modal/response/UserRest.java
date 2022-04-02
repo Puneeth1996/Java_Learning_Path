@@ -1,4 +1,4 @@
-package com.developerblog.app.ws.ui.model.response;
+package com.developerblog.app.ws.ui.modal.response;
 
 public class UserRest {
     private String userId;

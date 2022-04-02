@@ -36,7 +36,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             throws AuthenticationException {
 
         try {
-            // create UserLoginRequestModel from request:
+            // create UserLoginRequestModal from request:
             UserLoginRequestModal creds = new ObjectMapper()
                     .readValue(request.getInputStream(), UserLoginRequestModal.class);
 

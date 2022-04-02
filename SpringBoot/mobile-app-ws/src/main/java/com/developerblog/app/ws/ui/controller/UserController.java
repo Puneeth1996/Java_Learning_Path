@@ -3,7 +3,8 @@ package com.developerblog.app.ws.ui.controller;
 import com.developerblog.app.ws.service.UserService;
 import com.developerblog.app.ws.shared.dto.UserDto;
 import com.developerblog.app.ws.ui.modal.request.UserDetailsRequestModal;
-import com.developerblog.app.ws.ui.model.response.UserRest;
+import com.developerblog.app.ws.ui.modal.response.ErrorMessages;
+import com.developerblog.app.ws.ui.modal.response.UserRest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,8 +33,10 @@ public class UserController {
 	@PostMapping(
 			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public UserRest createUser(@RequestBody UserDetailsRequestModal userDetails){
+    public UserRest createUser(@RequestBody UserDetailsRequestModal userDetails) throws Exception {
         UserRest returnValue = new UserRest();
+
+        if(userDetails.getFirstName().isEmpty()) throw new Exception(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userDetails, userDto);
