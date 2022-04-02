@@ -1,5 +1,6 @@
 package com.developerblog.app.ws.ui.controller;
 
+import com.developerblog.app.ws.exceptions.UserServiceException;
 import com.developerblog.app.ws.service.UserService;
 import com.developerblog.app.ws.shared.dto.UserDto;
 import com.developerblog.app.ws.ui.modal.request.UserDetailsRequestModal;
@@ -36,7 +37,7 @@ public class UserController {
     public UserRest createUser(@RequestBody UserDetailsRequestModal userDetails) throws Exception {
         UserRest returnValue = new UserRest();
 
-        if(userDetails.getFirstName().isEmpty()) throw new Exception(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+        if(userDetails.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userDetails, userDto);
