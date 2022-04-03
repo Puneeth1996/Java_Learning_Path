@@ -1,11 +1,12 @@
 package com.developerblog.app.ws.ui.controller;
 
-import com.developerblog.app.ws.exceptions.UserServiceException;
+
 import com.developerblog.app.ws.service.UserService;
 import com.developerblog.app.ws.shared.dto.UserDto;
 import com.developerblog.app.ws.ui.modal.request.UserDetailsRequestModal;
-import com.developerblog.app.ws.ui.modal.response.ErrorMessages;
+import com.developerblog.app.ws.ui.modal.response.OperationStatusModel;
 import com.developerblog.app.ws.ui.modal.response.UserRest;
+import com.developerblog.app.ws.ui.model.response.RequestOperationStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -65,9 +66,19 @@ public class UserController {
 		return returnValue;
 	}
 
-    @DeleteMapping
-    public String deleteUser(){
-        return("delete user was called");
-    }
+
+	@DeleteMapping(path="/{id}",
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public OperationStatusModel deleteUser(@PathVariable String id) {
+		
+		OperationStatusModel returnValue= new OperationStatusModel();
+		returnValue.setOperationName(RequestOperationName.DELETE.name());
+		
+		userService.deleteUser(id);
+		
+		returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+		
+		return returnValue;
+	}
 
 }
