@@ -1,5 +1,8 @@
 package com.developerblog.app.ws.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 import com.developerblog.app.ws.service.UserService;
 import com.developerblog.app.ws.shared.dto.UserDto;
@@ -81,4 +84,19 @@ public class UserController {
 		return returnValue;
 	}
 
+	@GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public List<UserRest>getUsers(@RequestParam(value="page", defaultValue="0")int page,
+								  @RequestParam(value="limit", defaultValue = "2")int limit){
+
+		List<UserRest>returnValue = new ArrayList<>();
+		List<UserDto> users = userService.getUsers(page, limit);
+
+		for(UserDto userDto : users) {
+			UserRest userModel = new UserRest();
+			BeanUtils.copyProperties(userDto, userModel);
+			returnValue.add(userModel);
+		}
+
+		return returnValue;
+	}
 }
