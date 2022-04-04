@@ -1,0 +1,13 @@
+After starting the spring boot applicaiton with mvn commnads the port will be occupied so error comes up with port occupied in 8080
+
+    So use the below commands 
+
+        mvn spring-boot:stop
+
+        netstat -ona | findstr :8080 | findstr LISTENING
+
+        taskkill /PID 9688 /F
+
+
+
+
